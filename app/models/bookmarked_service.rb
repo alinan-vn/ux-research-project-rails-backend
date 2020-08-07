@@ -1,0 +1,2 @@
+class BookmarkedService < ApplicationRecord
+end

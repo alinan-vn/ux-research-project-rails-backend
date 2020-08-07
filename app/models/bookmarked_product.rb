@@ -1,0 +1,2 @@
+class BookmarkedProduct < ApplicationRecord
+end

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bookmarked Products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bookmarked_products.each do |bookmarked_product| %>
+      <tr>
+        <td><%= link_to 'Show', bookmarked_product %></td>
+        <td><%= link_to 'Edit', edit_bookmarked_product_path(bookmarked_product) %></td>
+        <td><%= link_to 'Destroy', bookmarked_product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bookmarked Product', new_bookmarked_product_path %>
