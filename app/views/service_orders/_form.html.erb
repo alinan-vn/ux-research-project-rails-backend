@@ -1,0 +1,17 @@
+<%= form_with(model: service_order, local: true) do |form| %>
+  <% if service_order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_order.errors.count, "error") %> prohibited this service_order from being saved:</h2>
+
+      <ul>
+        <% service_order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+class ServiceOrder < ApplicationRecord
+end
