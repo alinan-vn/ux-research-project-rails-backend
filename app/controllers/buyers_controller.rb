@@ -1,74 +1,56 @@
 class BuyersController < ApplicationController
-  before_action :set_buyer, only: [:show, :edit, :update, :destroy]
+  wrap_parameters format: :json
+  wrap_parameters :user, include: [:username, :password, :elo, :bio, :profile_pic, :profile_background]
+  # before_action :set_buyer, only: [:show, :edit, :update, :destroy]
 
-  # GET /buyers
-  # GET /buyers.json
   def index
-    @buyers = Buyer.all
+    render json: Buyer.all
   end
 
-  # GET /buyers/1
-  # GET /buyers/1.json
   def show
+    buyer = Buyer.find_by(id: params[:id])
+    render json: buyer, except: :password_digest
   end
 
-  # GET /buyers/new
   def new
-    @buyer = Buyer.new
   end
 
-  # GET /buyers/1/edit
   def edit
   end
 
-  # POST /buyers
-  # POST /buyers.json
   def create
-    @buyer = Buyer.new(buyer_params)
+    buyer = Buyer.new(buyer_params)
 
-    respond_to do |format|
-      if @buyer.save
-        format.html { redirect_to @buyer, notice: 'Buyer was successfully created.' }
-        format.json { render :show, status: :created, location: @buyer }
-      else
-        format.html { render :new }
-        format.json { render json: @buyer.errors, status: :unprocessable_entity }
-      end
+    if buyer.valid?
+      buyer.save
+
+      # payload = { id: buyer.id }
+      # hmac_secret = 'secret'
+      # token = JWT.encode(payload, hmac_secret, 'HS256')
+
+      # render json: { id: buyer.id, first_name: buyer.first_name, token: token }
+      render json: { msg: 'succefully created buyer!', buyer: buyer}
+    else
+      render json: { error: 'failed to create buyer: invalid email or password', buyer: buyer}
     end
+
   end
 
-  # PATCH/PUT /buyers/1
-  # PATCH/PUT /buyers/1.json
   def update
-    respond_to do |format|
-      if @buyer.update(buyer_params)
-        format.html { redirect_to @buyer, notice: 'Buyer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @buyer }
-      else
-        format.html { render :edit }
-        format.json { render json: @buyer.errors, status: :unprocessable_entity }
-      end
-    end
+    buyer = Buyer.find_by(id: params[:id])
+    buyer.update(buyer_params)
+
+    render json: buyer
   end
 
-  # DELETE /buyers/1
-  # DELETE /buyers/1.json
   def destroy
-    @buyer.destroy
-    respond_to do |format|
-      format.html { redirect_to buyers_url, notice: 'Buyer was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    buyer = Buyer.delete(params[:id])
+    render json: buyer
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_buyer
-      @buyer = Buyer.find(params[:id])
-    end
-
     # Only allow a list of trusted parameters through.
     def buyer_params
-      params.fetch(:buyer, {})
+      params.require(:buyer).permit(:first_name, :last_name, :password, :email)
     end
 end
