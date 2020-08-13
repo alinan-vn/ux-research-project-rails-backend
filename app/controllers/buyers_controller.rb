@@ -1,6 +1,6 @@
 class BuyersController < ApplicationController
   wrap_parameters format: :json
-  wrap_parameters :user, include: [:username, :password, :elo, :bio, :profile_pic, :profile_background]
+  wrap_parameters :buyer, include: [:first_name, :last_name, :password, :email]
   # before_action :set_buyer, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -50,7 +50,7 @@ class BuyersController < ApplicationController
 
   private
     # Only allow a list of trusted parameters through.
-    def buyer_params
-      params.require(:buyer).permit(:first_name, :last_name, :password, :email)
-    end
+  def buyer_params
+    params.require(:buyer).permit(:first_name, :last_name, :password, :email)
+  end
 end
