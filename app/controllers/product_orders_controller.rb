@@ -1,74 +1,34 @@
 class ProductOrdersController < ApplicationController
-  before_action :set_product_order, only: [:show, :edit, :update, :destroy]
-
-  # GET /product_orders
-  # GET /product_orders.json
   def index
-    @product_orders = ProductOrder.all
+    render json: ProductOrder.all
   end
 
-  # GET /product_orders/1
-  # GET /product_orders/1.json
   def show
+    product_order = ProductOrder.find_by(id: params[:id])
+    render json: { buyer: product_order.buyer, product: product_order.product }
   end
 
-  # GET /product_orders/new
-  def new
-    @product_order = ProductOrder.new
-  end
-
-  # GET /product_orders/1/edit
-  def edit
-  end
-
-  # POST /product_orders
-  # POST /product_orders.json
   def create
-    @product_order = ProductOrder.new(product_order_params)
+    product = params[:product]
+    buyer = params[:buyer]
+    product_order = ProductOrder.new(buyer: buyer, product: product)
 
-    respond_to do |format|
-      if @product_order.save
-        format.html { redirect_to @product_order, notice: 'Product order was successfully created.' }
-        format.json { render :show, status: :created, location: @product_order }
-      else
-        format.html { render :new }
-        format.json { render json: @product_order.errors, status: :unprocessable_entity }
-      end
+    if product_order.valid?
+      product_order.save
+      render json: { msg: "Product Order successful: #{product.title}!" product: product, product_order: product_order }
+    else
+      render json: { error: 'Bookmark unsuccessful', attempt: params }
     end
   end
 
-  # PATCH/PUT /product_orders/1
-  # PATCH/PUT /product_orders/1.json
-  def update
-    respond_to do |format|
-      if @product_order.update(product_order_params)
-        format.html { redirect_to @product_order, notice: 'Product order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product_order }
-      else
-        format.html { render :edit }
-        format.json { render json: @product_order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /product_orders/1
-  # DELETE /product_orders/1.json
-  def destroy
-    @product_order.destroy
-    respond_to do |format|
-      format.html { redirect_to product_orders_url, notice: 'Product order was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # Probably not needed for this table
+  # def destroy
+  #   product_order = ProductOrder.delete(params[:id])
+  #   render json: product_order
+  # end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product_order
-      @product_order = ProductOrder.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def product_order_params
-      params.fetch(:product_order, {})
+    def product_order_params(*args)
+      params.require(:product_order).permit(*args)
     end
 end

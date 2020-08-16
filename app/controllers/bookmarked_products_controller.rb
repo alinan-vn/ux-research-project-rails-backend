@@ -17,7 +17,7 @@ class BookmarkedProductsController < ApplicationController
       bookmarked_product.save
       render json: { msg: "Bookmark for #{product.title} created!}" product: product, bookmarked_product: bookmarked_product }
     else
-      render json: { error: 'Bookmark unsuccesful', attempt: params }
+      render json: { error: 'Bookmark unsuccessful', attempt: params }
     end
   end
 

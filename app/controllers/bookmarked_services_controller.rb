@@ -17,7 +17,7 @@ class BookmarkedServicesController < ApplicationController
       bookmarked_service.save
       render json: { msg: "Bookmark for #{service.title} created!}" service: service, bookmarked_service: bookmarked_service }
     else
-      render json: { error: 'Bookmark unsuccesful', attempt: params }
+      render json: { error: 'Bookmark unsuccessful', attempt: params }
     end
   end
 
