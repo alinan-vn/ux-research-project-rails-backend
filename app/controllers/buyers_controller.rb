@@ -4,12 +4,18 @@ class BuyersController < ApplicationController
   # before_action :set_buyer, only: [:show, :edit, :update, :destroy]
 
   def index
-    render json: Buyer.all
+    render json: Buyer.all, except: :password_digest
   end
 
   def show
     buyer = Buyer.find_by(id: params[:id])
-    render json: buyer, except: :password_digest
+
+    render json: {  
+      buyer: buyer.as_json( except: :password_digest),
+      msg: 'heyyy'
+    }
+
+    # render json: buyer, except: :password_digest
   end
 
   def new
