@@ -1,13 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  resources :service_orders
-  resources :product_orders
-  resources :purchase_orders
   resources :buyers
-  resources :bookmarked_services
-  resources :services
-  resources :bookmarked_products
   resources :products
   resources :sellers
 
@@ -18,7 +12,6 @@ Rails.application.routes.draw do
   post '/auth_seller', to: 'auth#create_seller'
   get '/current_seller', to: 'auth#show_seller'
 
-  # resources :shopping_carts
 end
 
 
