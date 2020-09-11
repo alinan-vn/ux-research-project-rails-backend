@@ -10,24 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_10_231754) do
+ActiveRecord::Schema.define(version: 2020_09_11_151951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "bookmarked_products", force: :cascade do |t|
-    t.integer "buyer_id"
-    t.integer "product_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "bookmarked_services", force: :cascade do |t|
-    t.integer "buyer_id"
-    t.integer "service_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "buyers", force: :cascade do |t|
     t.string "first_name"
@@ -38,16 +24,8 @@ ActiveRecord::Schema.define(version: 2020_08_10_231754) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "product_orders", force: :cascade do |t|
-    t.integer "buyer_id"
-    t.integer "product_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "products", force: :cascade do |t|
     t.integer "seller_id"
-    t.string "title"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -58,31 +36,6 @@ ActiveRecord::Schema.define(version: 2020_08_10_231754) do
     t.string "last_name"
     t.string "password_digest"
     t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "service_orders", force: :cascade do |t|
-    t.integer "buyer_id"
-    t.integer "service_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "services", force: :cascade do |t|
-    t.integer "seller_id"
-    t.string "title"
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "shopping_carts", force: :cascade do |t|
-    t.integer "buyer_id"
-    t.string "status"
-    t.string "products"
-    t.string "services"
-    t.float "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
